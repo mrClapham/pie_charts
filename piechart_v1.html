@@ -1,0 +1,139 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="stylesheets/datavis.css">
+
+    <script src="scripts/dataFaking/PieData2Layer.js"></script>
+    <script src="scripts/libs/d3.v3.js"></script>
+    <script src="scripts/tr/Piechart_2layer.js"></script>
+    <script src="scripts/tr/Comp_pie.js"></script>
+    <script type="text/javascript">
+
+        //////// PIE DATA FAKING //////////////////
+        function generateDummyPieDate(num){
+
+            var controller = {
+                generateRandom:function(min, max){
+                    return Math.random() * (max - min) + min;
+                }
+            }
+            var _pieData=[];
+
+            for(var i= 0; i<num; i++){
+                _pieData.push( {"label": "Iten num: "+String(i), "value": controller.generateRandom(80, 900)} )
+            }
+
+
+            return _pieData
+        }
+
+        ///////////////////////////////////
+
+        /////////// GENERATE COLOUR ARRAY /////
+
+        function makeColorGradient(frequency1, frequency2, frequency3,
+                                   phase1, phase2, phase3,
+                                   center, width, len)
+        {
+
+            function RGB2Color(r,g,b)
+            {
+                return '#' + byte2Hex(r) + byte2Hex(g) + byte2Hex(b);
+            }
+
+            function byte2Hex(n)
+            {
+                var nybHexString = "0123456789ABCDEF";
+                return String(nybHexString.substr((n >> 4) & 0x0F,1)) + nybHexString.substr(n & 0x0F,1);
+            }
+
+            if (len == undefined)      len = 50;
+            if (center == undefined)   center = 128;
+            if (width == undefined)    width = 127;
+
+            var rbw =[]
+
+            for (var i = 0; i < len; ++i)
+            {
+                var red = Math.sin(frequency1*i + phase1) * width + center;
+                var grn = Math.sin(frequency2*i + phase2) * width + center;
+                var blu = Math.sin(frequency3*i + phase3) * width + center;
+                rbw.push(RGB2Color(red,grn,blu) );
+            }
+            return(rbw) ;
+        }
+
+
+        //////////////////////////////////////
+
+        function onPageLoad(){
+
+            var _fakeData = new  PieData2Layer();
+            var _d1 =    _fakeData.getRandom()
+            var _pie = new Piechart_2layer('#pie_holder', _d1, {})
+
+            document.getElementById('Data1').addEventListener('click', function(e){
+                e.preventDefault();
+                var _d1 =    _fakeData.getRandom()
+                _pie.setData( _d1 )
+            })
+
+            ///--- the simpler pie chart
+
+            var _cols= makeColorGradient(.3,.3,.3,0,2,4);
+            var _donutPie = new Comp_pie('#pie_holder2', generateDummyPieDate(14), {colors:_cols} );
+
+            document.getElementById('Data2').addEventListener('click', function(e){
+                e.preventDefault();
+                _donutPie.setData( generateDummyPieDate(14) )
+
+            });
+        }
+
+    </script>
+
+    <style>
+        #main_content{
+            height: 400px;
+        }
+
+    </style>
+</head>
+
+<body onload="onPageLoad()">
+<div class="container">
+    <div id='head_bar'>
+        <h1>PIE CHART </h1> <!--<img id='head_logo' src="images/f_f_logo.png">-->
+    </div>
+
+    <div id="main_content">
+        <div id="pie_holder" class="pie_border" ></div>
+        <div id="pie_holder2" class="pie_border" ></div>
+
+        <div class="clearfix"></div>
+        <div id='line_graph_outer' class="header_graph ">
+
+            <a id='Data1' class='greenBtt' href="#">Set random data 1</a>
+            <a id='Data2' class='greenBtt' href="#">Set random data 2</a>
+
+            <div class="clearfix"></div>
+
+
+        </div>
+
+
+    </div>
+
+</div>
+</div>
+
+</body>
+</html>

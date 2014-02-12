@@ -1,0 +1,103 @@
+ul.pieList{
+  list-style: none;
+  font-family: helvetica, arial, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  a{
+    text-decoration: none;
+  }
+  .deselected a, a{
+    color: #3e3e3e;
+    display:block;
+    height:25px;
+  }
+  li.selected a, li.subLi a{
+    color: #ffffff;
+  }
+
+  li.subselected a{
+    color: #cccccc;
+
+    zoom: 1;
+    filter: alpha(opacity=1);
+    opacity: 1;
+  }
+
+  li.subDeselected a{
+    color: #cccccc;
+
+    zoom: 1;
+    filter: alpha(opacity=50);
+    opacity: 0.5;
+  }
+
+
+
+    li{
+
+
+      ul{
+        list-style: none;
+
+      }
+
+    }
+}
+
+$dotSize:8px;
+
+.menu_dot{
+  width: $dotSize;
+  height: $dotSize;
+  margin: 0 7px 0 7px;
+  -webkit-border-radius: $dotSize/2;
+  -moz-border-radius: $dotSize/2;
+  border-radius: $dotSize/2;
+  font-size: 2px;
+  -moz-box-shadow:    inset 0 1px 2px #fffffff;
+  -webkit-box-shadow: inset 0 1px 2px #ffffff;
+  box-shadow:         inset 0 1px 2px #ffffff;
+}
+
+.menu_value{
+  display: inline-block;
+}
+
+.legendNumber,.legendText{
+  color: #c8c7c7;
+  padding: 0;
+  margin: 0;
+  display: block;
+}
+
+.legendNumber{
+  font-weight: 400;
+  font-size: 26px;
+  line-height: 26px;
+}
+
+.legendText{
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  display: block;
+}
+
+
+.menu_num{
+  width: 60px;
+  text-align: right;
+  color: #777676;
+}
+
+.wedgeSelect{
+  -webkit-filter: drop-shadow( -15px -15px 15px #000 );
+  filter: drop-shadow( -15px -15px 15px #000 );
+
+}
+
+#pie_holder{
+  width: 800px;
+  margin: 0 auto;
+  position: relative;
+}

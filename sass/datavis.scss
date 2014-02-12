@@ -1,0 +1,551 @@
+
+// This import applies a global reset to any page that imports this stylesheet.
+// @import "blueprint/reset";
+
+// To configure blueprint, edit the partials/base.sass file.
+@import "partials/base";
+
+// Import all the default blueprint modules so that we can access their mixins.
+@import "blueprint";
+
+// Import the non-default scaffolding module.
+@import "blueprint/scaffolding";
+
+// To generate css equivalent to the blueprint css but with your
+// configuration applied, uncomment:
+// @include blueprint
+
+// If you are doing a lot of stylesheet concatenation, it is suggested
+// that you scope your blueprint styles, so that you can better control
+// what pages use blueprint when stylesheets are concatenated together.
+
+
+@import "partials/scatterplot";
+@import "partials/piechart";
+
+body.bp {
+  @include blueprint-typography(true);
+  @include blueprint-utilities;
+  @include blueprint-debug;
+  @include blueprint-interaction;
+  // Remove the scaffolding when you're ready to start doing visual design.
+  // Or leave it in if you're happy with how blueprint looks out-of-the-box
+}
+
+body{
+background-color:#282828;
+}
+
+form.bp {
+  @include blueprint-form;
+  // You'll probably want to remove the scaffolding once you start styling your site.
+  @include blueprint-scaffolding;
+}
+
+// Page layout can be done using mixins applied to your semantic classes and IDs:
+body.two-col {
+  #container {
+    @include container;
+  }
+  #header, #footer {
+    @include column($blueprint-grid-columns);
+  }
+  #sidebar {
+    // One third of the grid columns, rounding down. With 24 cols, this is 8.
+    $sidebar-columns: floor($blueprint-grid-columns / 3);
+    @include column($sidebar-columns);
+  }
+  #content {
+    // Two thirds of the grid columns, rounding up.
+    // With 24 cols, this is 16.
+    $content-columns: ceil(2 * $blueprint-grid-columns / 3);
+    // true means it's the last column in the row
+    @include column($content-columns, true);
+  }
+}
+
+
+
+
+
+$pageWidth: 1400px;
+$panelWidth: 340px;
+$chrome_padding: 8px;
+$border_highlight: #303030;
+$helvetica: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+
+@mixin colorButton($from, $to, $highlight, $textShad){
+  -moz-box-shadow:inset 0px 1px 0px 0px $highlight;
+  -webkit-box-shadow:inset 0px 1px 0px 0px $highlight;
+  box-shadow:inset 0px 1px 0px 0px $highlight;
+  background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, $from), color-stop(1, $to) );
+  background:-moz-linear-gradient( center top, $from 5%, $to 100% );
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='+$from+', endColorstr='+$to+');
+  background-color:$from;
+  -moz-border-radius:4px;
+  -webkit-border-radius:4px;
+  border-radius:4px;
+  display:inline-block;
+  color:#ffffff;
+  font-family:arial;
+  font-size:15px;
+  font-weight:bold;
+  padding:10px 24px;
+  margin-right: 20px;
+  text-decoration:none;
+  text-shadow:1px 1px 0px $textShad;
+  &:hover {
+    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, $to), color-stop(1, $from) );
+    background:-moz-linear-gradient( center top, $to 5%, $from 100% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='+$to+', endColorstr='+$from+');
+
+    -moz-box-shadow:inset 0px 0px 7px 0px $highlight;
+    -webkit-box-shadow:inset 0px 0px 7px 0px $highlight;
+    box-shadow:inset 0px 0px 7px 0px $highlight;
+  }
+  &:active {
+    position:relative;
+    top:1px;
+  }
+}
+
+
+@mixin black-grad{
+	// needs latest Compass, add '@import "compass"' to your scss
+background-color: #2a2a2b; // Old browsers
+@include filter-gradient(#2a2a2b, #000000, vertical); // IE6-9
+@include background-image(linear-gradient(top,  #2a2a2b 0%,#000000 100%));
+
+}
+
+@mixin drop_shad_main{
+  -webkit-box-shadow: 0px 2px 2px 3px rgba(0, 0, 0, .1);
+  box-shadow: 0px 2px 2px 3px rgba(0, 0, 0, .1);
+
+}
+
+@mixin three_d_border_out{
+	border: 1px solid #000000;
+	border-right: 1px solid $border_highlight;
+}
+
+@mixin three_d_border_in{
+	border: 1px solid #000000;
+	border-left: 1px solid $border_highlight;
+	border-bottom: 1px solid $border_highlight;
+}
+
+@mixin inset_shadow{
+	-webkit-box-shadow: inset -1px 1px 1px 1px rgba(0, 0, 0, .25);
+    box-shadow: inset -1px 1px 1px 1px rgba(0, 0, 0, .25);
+}
+
+
+@mixin color_button($bg_start, $bg_end, $highlight) {
+    -moz-box-shadow:inset 0px 1px 0px 0px $highlight;
+    -webkit-box-shadow:inset 0px 1px 0px 0px $highlight;
+    box-shadow:inset 0px 1px 0px 0px $highlight;
+    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, $bg_start), color-stop(1, $bg_end) );
+    background:-moz-linear-gradient( center top, $bg_start 5%, $bg_end 100% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff9d00', endColorstr='#ff9d00');
+    background-color:#ff9d00;
+    -moz-border-radius:6px;
+    -webkit-border-radius:6px;
+    border-radius:6px;
+    border:1px solid #ffc800;
+    display:inline-block;
+    color:#ffffff;
+    font-family:arial;
+    font-size:15px;
+    font-weight:bold;
+    padding:6px 24px;
+    text-decoration:none;
+    text-shadow:1px -1px 0px #b37314;
+
+    &:hover {
+      background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ff9d00), color-stop(1, #ff9d00) );
+      background:-moz-linear-gradient( center top, #ff9d00 5%, #ff9d00 100% );
+      filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff9d00', endColorstr='#ff9d00');
+      background-color:#ff9d00;
+
+
+      -moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
+      -webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+      box-shadow:inset 0px 1px 0px 0px #ffffff;
+
+    }
+    &:active {
+       position:relative;
+       top:1px;
+     }
+}
+/* This imageless css button was generated by CSSButtonGenerator.com */
+
+
+.yellowBtt{@include colorButton(#ff9c00, #ff9c00, #ffc900, #c77a00)}
+.greenBtt{@include colorButton(#488540, #488540, #68bc5d, #325d2d)}
+
+
+.datavis_holder{
+	width:$panelWidth;	
+	@include black-grad;
+	@include three_d_border_out;
+	z-index: 100;
+	min-height: 250px;
+	display: block;
+	p{
+
+		font-family:  $helvetica;
+		color: #cccccc;
+		font-size: 11px;
+		line-height: 14px;
+		font-weight: 100;
+		display: block;
+		padding: 4px $chrome_padding 4px $chrome_padding;
+	}
+}
+
+.datavis_inner{
+	width:$pageWidth;	
+	@include black-grad;
+	@include three_d_border_in;
+	display: block;
+	margin: $chrome_padding;
+	min-height: 200px;
+	@include inset_shadow;
+}
+
+
+
+#line_graph_holder{
+width: 750px;
+height: 344px;
+color:#ffffff;
+  float: right;
+
+}
+#line_graph_outer{
+	background-image:url('../images/check.png');
+	height: 344px;
+	width:$pageWidth;
+  @include three_d_border_in;
+
+}
+
+.container{
+	width:$pageWidth;
+	margin:60px auto;
+    @include drop_shad_main;
+}
+
+
+/* tooltips */
+
+.tooltip{
+  @include filter-gradient(#2a2a2b, #000000, vertical); // IE6-9
+  @include background-image(linear-gradient(top,  #2a2a2b 0%,#000000 100%));
+  border: 1px #545454 solid;
+  color: #ffffff;
+  font-family:  $helvetica;
+  font-weight: 300;
+  font-size: 9px;
+  text-transform: uppercase;
+  text-align: center;
+  width: 112px;
+}
+.tooltip:after {
+  content: "";
+  //background-image: -webkit-gradient(linear, left top, #434343, #383838);
+  //background-image: -webkit-linear-gradient(left top, #434343, #383838);
+  //background-image: -moz-linear-gradient(left top, #434343, #383838);
+
+  @include filter-gradient(#2a2a2b, #000000, vertical); // IE6-9
+  @include background-image(linear-gradient(top,  #000000 0%,#2a2a2b 100%));
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  transform: rotate(45deg);
+  width: 12px;
+  height: 12px;
+  position: absolute;
+  left: 50%;
+  bottom: -6px;
+  border-right: 1px solid rgba(255, 255, 255, 0.5);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+  -webkit-box-shadow: -2px -2px 0px -1px black;
+  -moz-box-shadow: -2px -2px 0px -1px black;
+  box-shadow: -2px -2px 0px -1px black;
+  margin-left: -5px;
+  z-index: -1;
+}
+
+
+/* tooltips for the scatterplot */
+
+.scatter_dots_l{
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  pointer-events:none;
+}
+
+.tooltipSp{
+  @include filter-gradient(#333333, #333333, vertical); // IE6-9
+  @include background-image(linear-gradient(top,  #333333 0%,#333333 100%));
+  border: 1px #545454 solid;
+  color: #ffffff;
+  font-family:  $helvetica;
+  font-weight: 300;
+  font-size: 9px;
+  text-align: left;
+  min-width: 130px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  pointer-events:none;
+
+  .tool_head, .tool_foot{
+    display: block;
+    background-color: transparent;
+    border-top: solid 1px #494949;
+    border-left: solid 1px #494949;
+    border-right: solid 1px #494949;
+    padding: 5px;
+    p{
+      margin: 0;
+      padding: 0;
+    }
+  }
+  .tool_legend_grey{
+    color: #7c7c7c;
+    font-size: 11px;
+    font-weight: 600;
+
+  }
+  .tool_legend_value{
+    font-size: 14px;
+  }
+}
+.tool_head{
+  border-bottom: solid 1px #000000;
+}
+
+
+.tooltipSp:after {
+  content: "";
+  //background-image: -webkit-gradient(linear, left top, #434343, #383838);
+  //background-image: -webkit-linear-gradient(left top, #434343, #383838);
+  //background-image: -moz-linear-gradient(left top, #434343, #383838);
+
+  @include filter-gradient(#2a2a2b, #000000, vertical); // IE6-9
+  @include background-image(linear-gradient(top,  #333333 0%,#2a2a2b 100%));
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  transform: rotate(45deg);
+  width: 12px;
+  height: 12px;
+  position: absolute;
+  left: 50%;
+  bottom: -6px;
+  border-right: 1px solid rgba(255, 255, 255, 0.3);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  //-webkit-box-shadow: -2px -2px 0px -1px black;
+  //-moz-box-shadow: -2px -2px 0px -1px black;
+  //box-shadow: -2px -2px 0px -1px black;
+  margin-left: -5px;
+  z-index: -1;
+}
+
+
+
+
+.tooltipVal{
+  @include filter-gradient(#2a2a2b, #000000, vertical); // IE6-9
+  @include background-image(linear-gradient(top,  #2a2a2b 0%,#000000 100%));
+  border: 1px #545454 solid;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-weight: 300;
+  font-size: 12px;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.gridlinesH, .gridlinesV, .pie_text{
+  font-family: $helvetica;
+  font-size: 11px;
+  fill:#ffffff;
+}
+
+.pie_text{
+  color: #ffffff;
+}
+
+/* ----- for the presentation --- */
+/* This imageless css button was generated by CSSButtonGenerator.com */
+
+
+#main_nav{
+  margin:0 auto;
+  border-top: 1px solid #303030;
+  height: 65px;
+  padding: 20px 20px 0 20px;
+}
+
+.blackBttActive, .blackBtt{
+                        -moz-border-radius:6px;
+                        -webkit-border-radius:6px;
+                        border-radius:6px;
+                        display:inline-block;
+                        color:#ffffff;
+                        font-family:arial;
+                        font-size:15px;
+                        font-weight:bold;
+                        padding:12px 24px;
+                        text-decoration:none;
+                        text-shadow:1px 1px 0px #000000;
+                      }.blackBttActive:hover {
+                         background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #212122), color-stop(1, #212122) );
+                         background:-moz-linear-gradient( center top, #212122 5%, #212122 100% );
+                         filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#212122', endColorstr='#212122');
+                         background-color:#212122;
+                       }.blackBttActive:active {
+                          position:relative;
+                          top:1px;
+                   }
+
+.blackBttActive{
+  -moz-box-shadow:inset 0px -2px 0px 0px #393939;
+  -webkit-box-shadow:inset 0px -2px 0px 0px #393939;
+  box-shadow:inset 0px -2px 0px 0px #393939;
+  background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #212122), color-stop(1, #212122) );
+  background:-moz-linear-gradient( center top, #212122 5%, #212122 100% );
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#212122', endColorstr='#212122');
+  background-color:#212122;
+}
+
+
+
+
+.button_bar{
+  /*width:$pageWidth;*/
+  margin: 0 auto;
+  display: table;
+  position:relative;
+  text-align:left;
+}
+
+ul.main_nav_ul {
+  list-style:none;
+  position:relative;
+}
+.main_nav_ul li {
+  list-style:none;
+  float:left;
+  position:relative;
+  display: inline;
+  text-align: center;
+}
+
+#head_bar{
+  width: $pageWidth;
+  height:60px;
+  background-color: #232323;
+  border-bottom: 1px solid #303030;
+  h1{
+    font-family: $helvetica;
+    font-size: 16px;
+    color: #ffffff;
+    font-weight: 400;
+    padding: 20px;
+    display: block;
+  }
+}
+
+#main_content{
+  background-color: #1d1d1d;
+  position: relative;
+  height: $pageWidth;
+}
+
+.grid_box, .grid_box_wide{
+   height: $pageWidth/4;
+   display: block;
+   padding: 0;
+   margin: 0;
+   vertical-align: top;
+   float: left;
+ }
+
+.grid_box{
+  width:$pageWidth/4;
+
+}
+
+.grid_box_wide{
+  width:$pageWidth/2;
+}
+
+.grey_box_dk{
+  background-color: #393939;
+}
+
+.grey_box_lt{
+  background-color: #444444;
+}
+
+#head_logo{
+  padding: 20px 0 0 100px;
+}
+
+.head_copy{
+  width:500px;
+  height: 240px;
+  display: block;
+  float: left;
+  margin: 80px 0 0 100px;
+  h2{
+    color: #ffffff;
+    font-family: 'Lato', sans-serif;
+    font-weight: 900;
+    font-size: 24px;
+    line-height: 30px;
+  }
+  h3{
+    color: #afafaf;
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+    font-size: 24px;
+    line-height: 30px;
+    margin-bottom: 20px;
+  }
+}
+
+/* pie charts */
+
+.pie_text{
+
+}
+
+/* for the scatterplot */
+
+
+.heavyShadow{
+  -webkit-box-shadow: 0px 0px 30px rgba(0, 0, 0, 1);
+  -moz-box-shadow:    0px 0px 30px rgba(0, 0, 0, 1);
+  box-shadow:         0px 0px 30px rgba(0, 0, 0, 1);
+}
+
+
+.x_tool_legend, .y_tool_legend{
+     font-size: 11px;
+
+}
