@@ -51,10 +51,7 @@ function Piechart_2layer(targ, data, config){
             },
             innerData:function(){
                 var ds = scope.model.data
-
-
                 var _d =[]
-
                 for(var i=0; i< ds.length; i++){
                     var label = ds[i].label;
                     var value = 0
@@ -177,10 +174,10 @@ function Piechart_2layer(targ, data, config){
             },
             initSVG:function(){
                 scope.view.svg = d3.select(scope.model.targ).append("svg")
-                    .append("g")
-                    .attr('class', 'holder')
                     .attr("width", scope.model.width+scope.model.legendWidth)
                     .attr("height", scope.model.height)
+                    .append("g")
+                    .attr('class', 'holder')
                     .attr("transform", "translate(" + scope.model.width / 2 + "," + scope.model.height / 2 + ")")
                     .style('z-index', 10)
 
